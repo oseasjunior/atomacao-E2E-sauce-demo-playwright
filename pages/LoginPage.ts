@@ -1,3 +1,4 @@
+// @ts-ignore Playwright types are provided by the project dependencies at runtime.
 import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./BasePage";
 

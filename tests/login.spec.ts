@@ -1,16 +1,17 @@
-import { test, expect } from '@playwright/test';
+// @ts-ignore — permite executar o teste mesmo quando as declarações do Playwright não estão disponíveis no ambiente.
+import { test, expect, type Page } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { USUARIOS } from '../fixtures/users';
 
 test.describe('Tela de Login - SauceDemo', () => {
     let loginPage: LoginPage;
 
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page }: { page: Page }) => {
         loginPage = new LoginPage(page);
         await loginPage.abrir();
     });
 
-    test('deve logar com credenciais válidas', async ({ page }) => {
+    test('deve logar com credenciais válidas', async ({ page }: { page: Page }) => {
         await loginPage.logar(USUARIOS.valido.usuario, USUARIOS.valido.senha);
 
         await expect(page).toHaveURL(/inventory\.html/);
