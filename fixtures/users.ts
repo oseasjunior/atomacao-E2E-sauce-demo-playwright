@@ -11,4 +11,8 @@ export const USUARIOS = {
     usuario: 'usuario_invalido',
     senha: 'senha_errada',
   },
+}
+export const BACKPACK = {
+  titulo: 'Sauce Labs Backpack',
+  preco: '$29.99'
 } as const;

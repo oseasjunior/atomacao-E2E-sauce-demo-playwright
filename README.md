@@ -1,6 +1,6 @@
 # Automacao SauceDemo com Playwright
 
-Suíte de testes end-to-end para validar o fluxo de login da aplicação [SauceDemo](https://www.saucedemo.com), usando Playwright, TypeScript e o padrão Page Object Model.
+Suíte de testes end-to-end para validar os fluxos de login e catálogo da aplicação [SauceDemo](https://www.saucedemo.com), usando Playwright, TypeScript e o padrão Page Object Model.
 
 ## Pré-requisitos
 
@@ -41,9 +41,13 @@ npx playwright test --headed
 
 # Executa apenas um arquivo
 npx playwright test tests/login.spec.ts
+npx playwright test tests/produtos.spec.ts
 
 # Executa apenas em um navegador
 npx playwright test --project=chromium
+
+# Executa um cenário pelo título
+npx playwright test tests/produtos.spec.ts -g "Adicionar um produto ao carrinho"
 
 # Abre o relatório HTML gerado pela última execução
 npx playwright show-report
@@ -57,19 +61,28 @@ A suíte está configurada para executar em Chromium, Firefox e WebKit. Em execu
 - Bloqueio do usuário `locked_out_user`
 - Mensagem de erro para credenciais inválidas
 - Redirecionamento para `inventory.html` após login válido
+- Validação do título e preço do produto Backpack
+- Adição e remoção de produto do carrinho
+- Validação do carrinho vazio
+- Ordenação dos produtos por nome, de A a Z
+- Ordenação dos produtos por preço, do maior para o menor
+- Logout do usuário
 
-Os usuários de teste ficam centralizados em `fixtures/users.ts`.
+Os usuários e dados dos produtos ficam centralizados em `fixtures/users.ts`. Os testes de catálogo reutilizam a fixture `usuarioLogado`, definida em `fixtures/test.ts`, que realiza o login com `standard_user` antes de cada teste.
 
 ## Estrutura do projeto
 
 ```text
 ├── fixtures/
-│   └── users.ts             # Dados dos usuários usados nos cenários
+│   ├── test.ts               # Fixture de autenticação reutilizável
+│   └── users.ts              # Dados de usuários e produtos
 ├── pages/
 │   ├── BasePage.ts          # Comportamentos comuns de páginas
-│   └── LoginPage.ts         # Locators e ações da tela de login
+│   ├── LoginPage.ts          # Locators e ações da tela de login
+│   └── ProdutosPage.ts       # Locators e ações do catálogo e carrinho
 ├── tests/
-│   └── login.spec.ts        # Casos de teste do login
+│   ├── login.spec.ts         # Casos de teste do login
+│   └── produtos.spec.ts      # Casos de catálogo, carrinho e logout
 ├── playwright.config.ts     # Configuração da suíte e dos navegadores
 └── package.json             # Dependências do projeto
 ```
